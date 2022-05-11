@@ -9,3 +9,7 @@
 - sniperTop.py
 
     爬取opensea的top100项目信息。
+
+- test.py
+    
+    多线程执行sniperOS_Otherside项目，开启多个selenium浏览器
