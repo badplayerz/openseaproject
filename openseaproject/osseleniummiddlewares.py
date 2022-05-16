@@ -93,24 +93,21 @@ class OpenseaprojectDownloaderMiddleware:
 
     def process_request(self, request, spider):
 
-
+        close_sign = request.meta.get('close_sign', False)
         self.driver.get(request.url)
 
         html = self.driver.page_source
-
-        # self.closecSpiner(pageNum)
+        self.closecSpiner(close_sign)
 
         return scrapy.http.HtmlResponse(url=request.url, body=html.encode('utf-8'), encoding='utf-8',request=request)
 
 
-    # 自定义关闭方法，判断最后爬取次数与settings设置最大爬取次数相同则关闭浏览器driver
-    # 需要from scrapy.utils.project import get_project_settings
-    # 需要定义全局变量cSettings、PAGEMAX
-    def closecSpiner(self, pageNum):
-        if self.cSettings is None:
-            self.cSettings = get_project_settings()
-            self.PAGEMAX = self.cSettings.get('MAX_PAGE_NUM')
-        if self.PAGEMAX != 0 and pageNum == self.PAGEMAX-1:
+    """
+    自定义关闭方法
+    当收到关闭信号时关闭，本逻辑是每个线程达到循环数量后关闭。
+    """
+    def closecSpiner(self, close_sign):
+        if close_sign == True:
             self.driver.quit()
 
 

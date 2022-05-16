@@ -15,12 +15,13 @@ def getExcelNum():
     print(cell.value)
     print(sheet.max_row)
     num = sheet.max_row
+    # num = 20
     for pageNum in range(1, num + 1):
         cell = sheet['A' + str(pageNum)]
         print('7777777:' + str(cell.value))
     exc_num = math.ceil(num / PROCESS_NUM)  # excel内循环数
 
-    return {'num':num,'exc_num':exc_num}
+    return {'num': num, 'exc_num': exc_num}
 
 def runExcelScript():
     excelDic = getExcelNum()    # excel数据，总行数和需循环行数
@@ -41,8 +42,8 @@ def runExcelScript():
         threads.append(t)
         t.start()
 
-    # for i in threads:
-    #     i.join()
+    for i in threads:
+        i.join()
 
 """
 多线程执行

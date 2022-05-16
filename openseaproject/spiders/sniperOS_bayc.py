@@ -19,13 +19,16 @@ class SnipertopSpider(scrapy.Spider):
         excel_file = openpyxl.load_workbook('/Users/sdbean-zlh/PycharmProjects/openseaproject/openseaproject/resource/otherside_bayc_leak.xlsx')
         sheet = excel_file['Sheet2']
         num = sheet.max_row
+        close_sign = False
 
 
         for pageNum in range(self.start_page, self.end_page):
             cell = sheet['A' + str(pageNum)]
             uri = self.start_urls+str(cell.value)
             print('7777777' + str(cell.value))
-            yield scrapy.Request(url=uri, callback=self.parse, dont_filter=True)
+            if pageNum+1 == self.end_page:
+                close_sign = True
+            yield scrapy.Request(url=uri, callback=self.parse, meta={'close_sign':close_sign}, dont_filter=True)
 
 
     # allowed_domains = ['jd.com']
