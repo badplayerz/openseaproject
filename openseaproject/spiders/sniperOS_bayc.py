@@ -1,12 +1,12 @@
 import scrapy
-from openseaproject.items import OS_Otherside
+from openseaproject.items import OS_bayc
 import openpyxl
 
 
 class SnipertopSpider(scrapy.Spider):
-    name = 'sniperOS_Otherside'
+    name = 'sniperOS_bayc'
     allowed_domains = ['opensea.io']
-    start_urls = 'https://opensea.io/assets/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/'
+    start_urls = 'https://opensea.io/assets/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/'
     start_page = 0
     end_page = 0
 
@@ -16,8 +16,8 @@ class SnipertopSpider(scrapy.Spider):
         self.end_page = int(end_page)
 
     def start_requests(self):
-        excel_file = openpyxl.load_workbook('./resource/otherside_data.xlsx')
-        sheet = excel_file['Sheet1']
+        excel_file = openpyxl.load_workbook('/Users/sdbean-zlh/PycharmProjects/openseaproject/openseaproject/resource/otherside_bayc_leak.xlsx')
+        sheet = excel_file['Sheet2']
         num = sheet.max_row
 
 
@@ -33,10 +33,10 @@ class SnipertopSpider(scrapy.Spider):
 
     def parse(self, response):
         print('爬取Top信息....')
-        item = OS_Otherside()
-        name_add = response.xpath('normalize-space(//*[@id="main"]/div/div/div/div[1]/div/div[1]/div[2]/section[2]/div[1]/div/a/span)').extract_first()
+        item = OS_bayc()
+        name_add = response.xpath('normalize-space(//*[@id="main"]/div/div/div/div[1]/div/div[1]/div[2]/div[1]/div/section/div[2]/div[2]/div[1]/div[2])').extract_first()
         rank_add = response.xpath('normalize-space(//*[@id="main"]/div/div/div/div[1]/div/div[1]/div[2]/section[1]/h1)').extract_first()
-        item['address'] = name_add
+        item['price'] = name_add
         item['rankNo'] = rank_add
         yield item
 

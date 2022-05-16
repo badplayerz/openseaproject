@@ -5,12 +5,12 @@ import math
 import threading
 
 PROCESS_NUM = 5 # 开启脚本数量
-SCRIPT_NAME = 'sniperOS_Otherside'
+SCRIPT_NAME = 'sniperOS_bayc'
 
 
 def getExcelNum():
-    excel_file = openpyxl.load_workbook('./resource/otherside_data.xlsx')
-    sheet = excel_file['Sheet1']
+    excel_file = openpyxl.load_workbook('./resource/otherside_bayc_leak.xlsx')
+    sheet = excel_file['Sheet2']
     cell = sheet['A' + str(1)]
     print(cell.value)
     print(sheet.max_row)
@@ -35,14 +35,14 @@ def runExcelScript():
             end_num = excelDic['num'] + 1
 
         commands = ("cd %s\n"
-                    "scrapy crawl sniperOS_Otherside -a start_page=%s -a end_page=%s\n"%('/Users/sdbean-zlh/PycharmProjects/openseaproject',start_num,end_num))
+                    "scrapy crawl sniperOS_bayc -a start_page=%s -a end_page=%s\n"%('/Users/sdbean-zlh/PycharmProjects/openseaproject',start_num,end_num))
 
         t = runThreadSellCommands(commands)
         threads.append(t)
         t.start()
 
-    for i in threads:
-        i.join()
+    # for i in threads:
+    #     i.join()
 
 """
 多线程执行
@@ -53,7 +53,7 @@ class runThreadSellCommands(threading.Thread):
         self.commands = _commands
     def run(self):
         shell_result = subprocess.check_output(self.commands, shell=True).decode().strip().split('\n')
-        # print(self.commands)
+        print(self.commands)
 
 
 

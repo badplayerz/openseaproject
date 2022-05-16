@@ -23,3 +23,7 @@ class OpenseaprojectItem(scrapy.Item):
 class OS_Otherside(scrapy.Item):
     address = scrapy.Field()
     rankNo = scrapy.Field()
+
+class OS_bayc(scrapy.Item):
+    price = scrapy.Field()
+    rankNo = scrapy.Field()
